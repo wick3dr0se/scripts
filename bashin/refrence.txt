@@ -1,0 +1,15 @@
+## Set
+# -E or -o errtrace: Place error traps on function calls, subshell environment & command substitutions
+# -e or -o errexit: Exit immediately when the command exits with a non-zero status
+# -u or -o nounset: Prevent the usage of undefined variables
+# -x or -o xtrace: Print all running commands prior to execution
+# -o pipefall: If any command in a pipeline chain exits with a non-zero status, the whole command will.
+# To unset use `+<option>` like: 'set +e' or 'set +o errexit'
+
+## Shopt
+# shopt -s nullglob: When a pattern has no match, expand as null. By default the pattern will by expanded as a literal string
+# shopt -s dotglob: Include files beginning with '.'
+# To disable shopt use 'shopt -u <option>'
+
+## DIR
+# Assigns the absolute directory path of the script. Useful when refering to the script from another directory and calling a resource next to it

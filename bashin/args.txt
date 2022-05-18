@@ -1,0 +1,21 @@
+# convert long flags
+for arg in $col ; do
+	shift
+	case $arg in
+		--help|--usage) set -- $@ -h ;;
+		*) set -- $@ $arg ;;
+	esac
+done
+
+# handle flags
+OPTFIND=1
+while getopts 'hu' opt ; do
+	case $opt in
+		u|h|*) cat <<USAGE
+flag | usage
+-f, --flag ... usage
+USAGE
+	esac
+	break
+done
+shift `expr $OPTFIND - 1`
