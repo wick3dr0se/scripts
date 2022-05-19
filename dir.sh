@@ -8,16 +8,16 @@ done
 }
 
 _img() {
-if [[ $(command -v viu) ]] ; then
+if [[ `command -v viu` ]] ; then
         echo ; viu --width 10 --height 5 "$col"
         write "$1" '' 7 ; echo
-elif [[ $(command -v timg) ]] ; then
+elif [[ `command -v timg` ]] ; then
         echo ; timg -g10x5 "$col"
         write "$1" '' 7 ; echo
-elif [[ $(command -v lsix) ]] ; then
+elif [[ `command -v lsix` ]] ; then
         echo ; lsix -geometry 10x5 "$col"
         write "$1" '' 7 ; echo
-elif [[ $(command -v catimg) ]] ; then
+elif [[ `command -v catimg` ]] ; then
         echo ; catimg -w 20 "$col"
         write "$1" '' 7 ; echo
 fi
@@ -38,7 +38,7 @@ flags=('-F') # flags used by default
 OPTFIND=1
 while getopts 'ahu' opt ; do
 	case $opt in
-		a) flags+=(-A) ;;
+		a) flags+=('-A') ;;
 		u|h|*) cat <<USAGE
 flag | usage
 -a, --all ... list all hidden files and directories
@@ -52,9 +52,6 @@ for col in $@ ; do
 	[[ $col =~ ^-[a-z] ]] || _in=$col
 	case $col in
 		*.sh|*.txt|*.md) cat $col ;;
-		*) case `file $col` in
-			*image*) sed 's/\n//' ;;
-		esac ;;
 	esac
 done
 
