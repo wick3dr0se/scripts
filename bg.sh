@@ -18,6 +18,7 @@ else
 	echo 'No supported wallpaper setter found' && exit
 fi
 }
+
 _get() {
 local url="https://source.unsplash.com/random/\?$query"
 
