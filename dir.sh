@@ -20,6 +20,8 @@ elif [[ `command -v lsix` ]] ; then
 elif [[ `command -v catimg` ]] ; then
         echo ; catimg -w 20 "$col"
         write "$1" '' 7 ; echo
+else
+	echo 'No thumbnail viewer found' && exit
 fi
 }
 
@@ -61,9 +63,8 @@ for col in `ls ${flags[@]} $_in` ; do
 		*\*|*.sh) write "${col%\*}" '*  ' 3 ;;
 		*@) write "${col%@}" '@  ' 7 ;;
 		*.txt|*.md) write "${col##/*}" '  ' 7 ;;
-		*) case `file $col` in
-			*image*) _img "${col##*/}" ;;	
-		esac ;;
+		*) [[ `file $col` =~ image ]] && _img "${col##*/}"  || write "$col" '  ' 7
+		;;
 	esac
 done
 echo
