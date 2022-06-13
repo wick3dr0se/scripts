@@ -1,7 +1,6 @@
 #!/bin/bash
 
 write() {
-clr=$3
 for i in {0..7} ; do
 	[[ $i = $3 ]] && printf "\033[1;${BG}3${i}m%s\033[0m%s" "$1" "$2"
 done
