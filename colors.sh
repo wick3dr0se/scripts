@@ -22,7 +22,7 @@ done
 	echo -ne "\033[${1}8;5;${i}m${i}\033[0m"
 }
 
-echo
+echo ; echo
 _out '8-bit ANSI escape sequence'
 _out 'Usage: \033[?8;5;???m .. \033[0m'
 for i in {0..256} ; do
