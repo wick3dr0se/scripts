@@ -1,11 +1,21 @@
 #!/bin/bash
 
-script=${0##*/}
-q=${@/-*}
-n=${q/[aA-zZ]}
-q=${q/[0-9]}
-query=${q/ /,}
-target='img'
+q=${@,,}
+q=${q/-[a-z]*}
+q=${q/-}
+query=${q/[0-9]*}
+
+while read line ; do
+	case $line in
+		*-r*) [[ $line =~ $$ ]] || kill `echo $line | cut -d' ' -f2` ;;
+	esac
+done < <(ps -ef | grep -w 'bg.sh')
+
+_get() {
+local url="https://source.unsplash.com/random/\?$query"
+
+[[ `command -v wget` ]] && wget $url -O $1 || curl $url -Lo $1
+}
 
 _set() {
 if [[ $(command -v feh) ]] ; then
@@ -19,22 +29,17 @@ else
 fi
 }
 
-_get() {
-local url="https://source.unsplash.com/random/\?$query"
+_get ~/img
+_set ~/img
 
-[[ `command -v wget` ]] && wget $url -O $1 ||
-	curl $url -Lo $1
-}
-
-[[ ${@,,} =~ --stop|-s ]] && kill $(ps -ef | awk /$script/'{print $2}')
-
-if [[ ${@,,} =~ --random|-r ]] ; then
+if [[ $@ =~ --random|r ]] ; then
+	n=${@/[a-z]*}
+	n=${n/-}
+	n=${n/-}
+	echo $n
 	while :; do
-		_get ~/$target
-		_set ~/$target
 		sleep ${n:-60}
+		_get ~/img
+		_set ~/img
 	done 2>/dev/null & disown
-else
-	_get ~/$target
-	_set ~/$target
 fi
