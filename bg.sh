@@ -1,9 +1,7 @@
 #!/bin/bash
 
-q=${@,,}
-q=${q/-[a-z]*}
-q=${q/-}
-query=${q/[0-9]*}
+q=${@//-*}
+query=${q//[0-9]}
 
 while read line ; do
 	case $line in
@@ -12,7 +10,7 @@ while read line ; do
 done < <(ps -ef | grep -w 'bg.sh')
 
 _get() {
-local url="https://source.unsplash.com/random/\?$query"
+local url="https://source.unsplash.com/random/\?${query// /,}"
 
 [[ `command -v wget` ]] && wget $url -O $1 || curl $url -Lo $1
 }
@@ -32,14 +30,13 @@ fi
 _get ~/img
 _set ~/img
 
-if [[ $@ =~ --random|r ]] ; then
-	n=${@/[a-z]*}
-	n=${n/-}
-	n=${n/-}
-	echo $n
+[[ $@ =~ --random|-r ]] && {
+	n=${q//[a-z]} ; n=${n// }
+	n=${n:-30}
 	while :; do
-		sleep ${n:-60}
+		sleep $n
 		_get ~/img
 		_set ~/img
 	done 2>/dev/null & disown
-fi
+	echo "Images based on query will be set every $n seconds." 
+}
