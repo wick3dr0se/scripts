@@ -16,11 +16,11 @@ local url="https://source.unsplash.com/random/\?${query// /,}"
 }
 
 _set() {
-if [[ $(command -v feh) ]] ; then
+if [[ `command -v feh` ]] ; then
 	feh --bg-fill $1
-elif [[ $(command -v xwallpaper) ]] ; then
+elif [[ `command -v xwallpaper` ]] ; then
 	xwallpaper --zoom $1
-elif [[ $(command -v nitrogen) ]] ; then
+elif [[ `command -v nitrogen` ]] ; then
 	nitrogen --set-zoom-fill $1
 else
 	echo 'No supported wallpaper setter found' && exit
